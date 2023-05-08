@@ -1,10 +1,9 @@
 import torch
-import numpy as np
 import random
+import numpy as np
 from variables import *
 import matplotlib.pyplot as plt
 from torchmetrics import JaccardIndex
-
 
 
 def set_seed(seed=28):
@@ -15,7 +14,6 @@ def set_seed(seed=28):
         torch.cuda.manual_seed(seed)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
-
 
 
 def train(dataloader, model, loss_fn, optimizer):

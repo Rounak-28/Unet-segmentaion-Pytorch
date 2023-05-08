@@ -1,12 +1,11 @@
 import random
 import numpy as np
+
 import torch
 import torchvision
-from torchvision.transforms import RandomRotation, Compose
 import torchvision.transforms.functional as TF
-from scipy.ndimage.filters import gaussian_filter
-from scipy.ndimage.interpolation import map_coordinates
-# from scipy.ndimage import map_coordinates, gaussian_filter
+from scipy.ndimage import map_coordinates, gaussian_filter
+from torchvision.transforms import RandomRotation, Compose
 
 
 class DoubleCompose(Compose):
@@ -15,6 +14,7 @@ class DoubleCompose(Compose):
         for t in self.transforms:
             image, mask = t(image, mask)
         return image, mask
+
 
 class DoubleHorizontalFlip:
     """Apply horizontal flips to both image and segmentation mask."""
@@ -31,6 +31,7 @@ class DoubleHorizontalFlip:
 
     def __repr__(self):
         return self.__class__.__name__ + f'(p={self.p})'
+
 
 class DoubleVerticalFlip:
     """Apply vertical flips to both image and segmentation mask."""
@@ -92,8 +93,6 @@ class DoubleElasticTransform:
             image, mask = torch.Tensor(image), torch.Tensor(mask)
 
         return image, mask
-
-
 
 
 class DoubleRandomRotation(RandomRotation):

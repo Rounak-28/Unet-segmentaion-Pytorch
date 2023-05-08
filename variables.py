@@ -1,6 +1,6 @@
 import torch
 
-epochs = 3
+epochs = 1
 batch_size = 1
 img_size = 512
 device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
