@@ -1,10 +1,21 @@
-from torchvision.transforms import Compose, ToTensor, ColorJitter, Normalize
-from torch.utils.data import Dataset
+from variables import batch_size
 from tifffile import imread
+from torch.utils.data import Dataset, DataLoader
 
-
-
-
+from torchvision.transforms import (
+    Compose,
+    ToTensor,
+    ColorJitter,
+    Normalize
+)
+from augmentation import (
+    DoubleCompose,
+    DoubleElasticTransform,
+    DoubleHorizontalFlip,
+    DoubleVerticalFlip,
+    DoubleRandomResizedCrop,
+    DoubleRandomRotation
+)
 
 
 class CustomDataset(Dataset):
@@ -32,3 +43,39 @@ class CustomDataset(Dataset):
             image, mask = self.img_mask_transforms(image, mask)
 
         return image, mask
+
+
+img_mask_transforms = DoubleCompose([
+    DoubleElasticTransform(alpha=250, sigma=10),
+    DoubleHorizontalFlip(),
+    DoubleVerticalFlip(),
+    # DoubleRandomResizedCrop(size=(512, 512)),
+    # DoubleRandomRotation(degrees=(0, 180)),
+])
+
+img_transforms = Compose([
+    ToTensor(),
+    ColorJitter(brightness=.4),
+    Normalize(0.5347, 0.2255),
+])
+
+mask_transforms = Compose([
+    ToTensor()
+])
+
+training_data = CustomDataset(
+    img_transforms=img_transforms, 
+    mask_transforms=mask_transforms, 
+    img_mask_transforms=img_mask_transforms, 
+    test=False
+)
+testing_data = CustomDataset(
+    img_transforms=img_transforms,
+    mask_transforms=mask_transforms,
+    img_mask_transforms=None,
+    test=True
+)
+
+
+train_dataloader = DataLoader(training_data, batch_size=batch_size)
+test_dataloader = DataLoader(testing_data, batch_size=batch_size)

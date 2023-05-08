@@ -1,7 +1,9 @@
 import torch
 import numpy as np
 import random
+from variables import *
 import matplotlib.pyplot as plt
+from torchmetrics import JaccardIndex
 
 
 
@@ -13,6 +15,54 @@ def set_seed(seed=28):
         torch.cuda.manual_seed(seed)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
+
+
+
+def train(dataloader, model, loss_fn, optimizer):
+    size = len(dataloader.dataset)
+    model.train()
+    for batch, (X, y) in enumerate(dataloader):
+        X, y = X.to(device), y.to(device)
+
+        # Compute prediction error
+        pred = model(X)
+        loss = loss_fn(pred, y)
+
+        # Backpropagation
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        
+        # loss tracking
+        train_loss_track.append(loss.item())
+
+        if batch % 100 == 0:
+            loss, current = loss.item(), (batch + 1) * len(X)
+            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+
+
+
+def test(dataloader, model, loss_fn):
+    num_batches = len(dataloader)
+    model.train()
+    # IOU score i.e intersetion over union, ranges between 0-1, the higher the better
+    test_loss, iou_score = 0, 0
+    with torch.no_grad():
+        for X, y in dataloader:
+            X, y = X.to(device), y.to(device)
+            jaccard = JaccardIndex(task="binary").to(device)
+            pred = model(X)
+            loss = loss_fn(pred, y)
+            iou = jaccard(pred,y)
+            iou_score += iou.item()
+            test_loss += loss.item()
+            # loss tracking
+            test_loss_track.append(loss.item())
+            test_iou_track.append(iou.item())
+
+    iou_score /= num_batches
+    test_loss /= num_batches
+    print(f"Test loss: {test_loss:.4f}, IOU score: {iou_score:.4f}")
 
 
 
@@ -31,7 +81,7 @@ def visualize_imgs(dataloader, is_mask=False):
 
 
 
-def show_predictions(dataloader, model, device):
+def show_predictions(dataloader, model):
     model.train()
     fig, axs = plt.subplots(2, 3)
     [axi.set_axis_off() for axi in axs.ravel()]
@@ -42,7 +92,7 @@ def show_predictions(dataloader, model, device):
         ground_truth = y.cpu()
         pred_mask = model(x).cpu()
         # Plot the real and predicted images in each subplot
-        for i in range(2):
+        for i in range(1):
             for j in range(3):
                 if j == 0:
                     axs[i, j].imshow(real_images[i][0])
