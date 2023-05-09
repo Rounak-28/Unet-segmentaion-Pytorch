@@ -6,7 +6,6 @@ import torchvision
 import torchvision.transforms as T
 import torchvision.transforms.functional as TF
 from scipy.ndimage import map_coordinates, gaussian_filter
-# from torchvision.transforms import RandomRotation, Compose
 
 
 class DoubleCompose(T.Compose):
