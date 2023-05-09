@@ -81,7 +81,7 @@ def visualize_imgs(dataloader, is_mask=False):
 
 def show_predictions(dataloader, model):
     model.train()
-    fig, axs = plt.subplots(2, 3)
+    fig, axs = plt.subplots(1, 3)
     [axi.set_axis_off() for axi in axs.ravel()]
     with torch.no_grad():
         x, y = next(iter(dataloader))
@@ -90,17 +90,16 @@ def show_predictions(dataloader, model):
         ground_truth = y.cpu()
         pred_mask = model(x).cpu()
         # Plot the real and predicted images in each subplot
-        for i in range(1):
-            for j in range(3):
-                if j == 0:
-                    axs[i, j].imshow(real_images[i][0])
-                    axs[i, j].set_title("Real Image")
-                elif j == 1:
-                    axs[i, j].imshow(pred_mask[i][0]>pred_mask[i][0].mean())
-                    axs[i, j].set_title("Predicted Mask")
-                else:
-                    axs[i, j].imshow(ground_truth[i][0])
-                    axs[i, j].set_title("Ground Truth")
+        for i in range(3):
+            if i == 0:
+                axs[i].imshow(real_images[i][0])
+                axs[i].set_title("Real Image")
+            elif i == 1:
+                axs[i].imshow(pred_mask[i][0]>pred_mask[i][0].mean())
+                axs[i].set_title("Predicted Mask")
+            else:
+                axs[i].imshow(ground_truth[i][0])
+                axs[i].set_title("Ground Truth")
         plt.show()
 
 

@@ -13,7 +13,6 @@ from augmentation import (
 )
 
 
-
 class CustomDataset(Dataset):
     def __init__(self, img_transforms=None, mask_transforms=None, img_mask_transforms=None, test=False):
         self.images = imread("data/test-volume.tif") if test else imread("data/train-volume.tif")
