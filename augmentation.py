@@ -3,12 +3,13 @@ import numpy as np
 
 import torch
 import torchvision
+import torchvision.transforms as T
 import torchvision.transforms.functional as TF
 from scipy.ndimage import map_coordinates, gaussian_filter
-from torchvision.transforms import RandomRotation, Compose
+# from torchvision.transforms import RandomRotation, Compose
 
 
-class DoubleCompose(Compose):
+class DoubleCompose(T.Compose):
 
     def __call__(self, image, mask):
         for t in self.transforms:
@@ -95,7 +96,7 @@ class DoubleElasticTransform:
         return image, mask
 
 
-class DoubleRandomRotation(RandomRotation):
+class DoubleRandomRotation(T.RandomRotation):
     
     def __init__(self, degrees, expand=False, center=None):
         super(DoubleRandomRotation, self).__init__(degrees, expand, center)

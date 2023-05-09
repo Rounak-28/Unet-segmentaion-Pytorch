@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torchvision.transforms import CenterCrop
+import torchvision.transforms as T
 
 
 class ConvBlock(nn.Module):
@@ -23,7 +23,7 @@ class ConvBlock(nn.Module):
 class CopyAndCrop(nn.Module):
     def forward(self, x: torch.Tensor, encoded: torch.Tensor):
         _, _, h, w = encoded.shape
-        crop = CenterCrop((h, w))(x)
+        crop = T.CenterCrop((h, w))(x)
         output = torch.cat((x, crop), 1)
         
         return output

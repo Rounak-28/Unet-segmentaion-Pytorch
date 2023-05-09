@@ -1,13 +1,8 @@
-from variables import batch_size
 from tifffile import imread
+from variables import batch_size
+import torchvision.transforms as T
 from torch.utils.data import Dataset, DataLoader
 
-from torchvision.transforms import (
-    Compose,
-    ToTensor,
-    ColorJitter,
-    Normalize
-)
 from augmentation import (
     DoubleCompose,
     DoubleElasticTransform,
@@ -53,14 +48,14 @@ img_mask_transforms = DoubleCompose([
     # DoubleRandomRotation(degrees=(0, 180)),
 ])
 
-img_transforms = Compose([
-    ToTensor(),
-    ColorJitter(brightness=.4),
-    Normalize(0.5347, 0.2255),
+img_transforms = T.Compose([
+    T.ToTensor(),
+    T.ColorJitter(brightness=.4),
+    T.Normalize(0.5347, 0.2255),
 ])
 
-mask_transforms = Compose([
-    ToTensor()
+mask_transforms = T.Compose([
+    T.ToTensor()
 ])
 
 training_data = CustomDataset(
