@@ -20,5 +20,4 @@ for t in range(epochs):
     test(test_dataloader, model, loss_fn)
 print("Done!")
 
-# torch.save(model.state_dict(), "models/model.pth")
 save_model(model, os.path.join(model_path, "model.pth"))

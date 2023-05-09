@@ -59,13 +59,14 @@ mask_transforms = T.Compose([
 ])
 
 training_data = CustomDataset(
-    img_transforms=img_transforms, 
-    mask_transforms=mask_transforms, 
-    img_mask_transforms=img_mask_transforms, 
+    img_transforms=img_transforms,
+    mask_transforms=mask_transforms,
+    img_mask_transforms=img_mask_transforms,
     test=False
 )
+
 testing_data = CustomDataset(
-    img_transforms=img_transforms,
+    img_transforms=T.ToTensor(),
     mask_transforms=mask_transforms,
     img_mask_transforms=None,
     test=True
