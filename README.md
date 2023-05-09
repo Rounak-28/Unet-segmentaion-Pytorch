@@ -32,7 +32,6 @@ I used Adam optimizer with a constant learing rate of 2e-4.
 
 training code is in `train.py`
 
-
 to train the model, you just need to run:
 ```
 python train.py
