@@ -1,15 +1,17 @@
+import os
 import torch
 import torch.nn as nn
 
 from model import UNet
 from variables import *
-from utils import train, test
+from utils import train, test, save_model
 from dataset import train_dataloader, test_dataloader
+
 
 model = UNet(in_channels=1, out_channels=1).to(device)
 
 loss_fn = nn.BCEWithLogitsLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=2e-4)
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 
 for t in range(epochs):
@@ -18,4 +20,5 @@ for t in range(epochs):
     test(test_dataloader, model, loss_fn)
 print("Done!")
 
-torch.save(model.state_dict(), "models/model1.pth")
+# torch.save(model.state_dict(), "models/model.pth")
+save_model(model, os.path.join(model_path, "model.pth"))

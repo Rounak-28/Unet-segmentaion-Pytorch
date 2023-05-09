@@ -34,7 +34,7 @@ def train(dataloader, model, loss_fn, optimizer):
         # loss tracking
         train_loss_track.append(loss.item())
 
-        if batch % 100 == 0:
+        if batch % 10 == 0:
             loss, current = loss.item(), (batch + 1) * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
@@ -102,3 +102,7 @@ def show_predictions(dataloader, model):
                     axs[i, j].imshow(ground_truth[i][0])
                     axs[i, j].set_title("Ground Truth")
         plt.show()
+
+
+def save_model(model, path):
+    torch.save(model.state_dict(), path)
