@@ -4,7 +4,7 @@ import torch.nn as nn
 
 from model import UNet
 from variables import *
-from utils import train, test, save_model
+from utils import train, test, save_model, plot_losses
 from dataset import train_dataloader, test_dataloader
 
 
@@ -21,3 +21,5 @@ for t in range(epochs):
 print("Done!")
 
 save_model(model, os.path.join(model_path, "model.pth"))
+
+plot_losses()

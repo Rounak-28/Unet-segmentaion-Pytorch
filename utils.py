@@ -105,3 +105,22 @@ def show_predictions(dataloader, model):
 
 def save_model(model, path):
     torch.save(model.state_dict(), path)
+
+
+def smooth_out(loss, window_size=10):
+    return np.convolve(loss, np.ones(window_size)/window_size, mode='valid')
+
+
+def plot_losses():
+    fig, axs = plt.subplots(1, 3, figsize=(12, 3))
+    axs[0].plot(smooth_out(train_loss_track))
+    axs[0].set_title("train loss")
+
+    axs[1].plot(smooth_out(test_loss_track))
+    axs[1].set_title("test loss")
+
+    axs[2].plot(smooth_out(test_iou_track))
+    axs[2].set_title("test IOU score")
+
+    plt.show()
+
