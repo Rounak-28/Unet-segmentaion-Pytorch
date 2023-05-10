@@ -1,5 +1,7 @@
 # Unet-Pytorch
 
+<img src="images/prediction.png">
+
 This is a Pytorch implementation of U-Net architecture following the paper:
 
  "U-Net: Convolutional Networks for Biomedical Image Segmentation"
@@ -38,4 +40,6 @@ python train.py
 ```
 
 # Results
-working...
+Intersection Over Union (IoU): 0.8345
+
+<img src="images/losses_plot.png">
