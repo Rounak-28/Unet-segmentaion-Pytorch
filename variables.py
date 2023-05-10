@@ -1,6 +1,6 @@
 import torch
 
-epochs = 3
+epochs = 1
 batch_size = 1
 img_size = 512
 learning_rate = 2e-4

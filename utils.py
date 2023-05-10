@@ -92,13 +92,13 @@ def show_predictions(dataloader, model):
         # Plot the real and predicted images in each subplot
         for i in range(3):
             if i == 0:
-                axs[i].imshow(real_images[i][0])
+                axs[i].imshow(real_images[0][0])
                 axs[i].set_title("Real Image")
             elif i == 1:
-                axs[i].imshow(pred_mask[i][0]>pred_mask[i][0].mean())
+                axs[i].imshow(pred_mask[0][0]>pred_mask[0][0].mean())
                 axs[i].set_title("Predicted Mask")
             else:
-                axs[i].imshow(ground_truth[i][0])
+                axs[i].imshow(ground_truth[0][0])
                 axs[i].set_title("Ground Truth")
         plt.show()
 
