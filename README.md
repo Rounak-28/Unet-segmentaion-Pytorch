@@ -19,7 +19,7 @@ The model architecture is as follows:
 Implementaion of this model is in `model.py`
 
 # Data Augmentation
-high quality dataset is quite rare in the case of biomedical segmented data.
+High quality dataset is quite rare in the case of biomedical segmented data.
 there is only 30 images in the training set.
 since neural networks tends to work better when trained on large enough data, I use various image augmentation methods suggested by the author such as `HorizontalFlip`, `VerticalFlip`, `ElasticTransform`, `RandomRotation`, `RandomResizedCrop` etc.
 
